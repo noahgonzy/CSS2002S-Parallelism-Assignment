@@ -6,33 +6,34 @@
 JAVAC=/usr/bin/javac
 JAVA=/usr/bin/java
 JAVADOC=/usr/bin/javadoc
-
+JFLAGS= -g
 
 .SUFFIXES: .java .class
-SRCDIR=src/MonteCarloMini
-BINDIR=bin/MonteCarloMini
+SRCDIR=src/MonteCarloMini/
+BINDIR=bin
 DOCDIR=doc
+ARGS=1000 1000 500 500 500 500 0.8
 
-#This code compiles the java files into class files and puts them in the bin directory
 $(BINDIR)/%.class:$(SRCDIR)/%.java
-	$(JAVAC) -d $(BINDIR)/ -cp $(BINDIR) $<
+	$(JAVAC) $ -d $(BINDIR)/ -cp $(SRCDIR)*.java $(JFLAGS) $<
 
-#this points the make file to what the classes are that will be compiles
-CLASSES=MonteCarloMinimization.class Search.class TerrainArea.class  \
+CLASSES=MonteCarloMinimization.class Search.class TerrainArea.class \
 
-#This creates a substitution reference which will produce a list of file names with the same names but with the directory prefix
 CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
 
-#this runs CLASS_FILES and generates javadocs by default when run without a parameter
 default: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR) 
 
-#this removes all files from the bin directory and the document directory
 clean:
-	rm $(BINDIR)/*.class
-	rm -r $(DOCDIR)/*
+	rm $(BINDIR)/MonteCarloMini/*.class
+#	rm -r $(DOCDIR)/*
 
-#this runs the same commands as default when run, but also runs the TokTik program
 run: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR)
-	$(JAVA) -cp MonteCarloMinimization 
+	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
+
+run_only:
+	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
+
+run_tests:
+	@echo "nothing yet"

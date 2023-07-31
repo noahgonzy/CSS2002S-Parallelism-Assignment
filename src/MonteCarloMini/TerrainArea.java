@@ -1,7 +1,5 @@
 package MonteCarloMini;
 
-import java.lang.Math.*;
-
 import MonteCarloMini.Search.Direction;
 
 public class TerrainArea {
