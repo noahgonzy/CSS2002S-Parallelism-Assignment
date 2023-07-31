@@ -106,7 +106,5 @@ class MonteCarloMinimization{
 	
 		/* Results*/
 		System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n\n", min, terrain.getXcoord(searches[finder].getPos_row()), terrain.getYcoord(searches[finder].getPos_col()) );
-				
-    	
     }
 }
