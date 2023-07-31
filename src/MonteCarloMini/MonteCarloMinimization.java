@@ -86,7 +86,6 @@ class MonteCarloMinimization{
    		//end timer
    		tock();
    		
-		
     	if(DEBUG) {
     		/* print final state */
     		terrain.print_heights();
