@@ -9,7 +9,7 @@ JAVADOC=/usr/bin/javadoc
 JFLAGS= -g
 
 .SUFFIXES: .java .class
-SRCDIR=src/MonteCarloMini/
+SRCDIR=src/*/
 BINDIR=bin
 DOCDIR=doc
 ARGS=1000 1000 500 500 500 500 0.8
@@ -17,7 +17,7 @@ ARGS=1000 1000 500 500 500 500 0.8
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) $ -d $(BINDIR)/ -cp $(SRCDIR)*.java $(JFLAGS) $<
 
-CLASSES=MonteCarloMinimization.class Search.class TerrainArea.class \
+CLASSES=*.class \
 
 CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
 
@@ -25,12 +25,13 @@ default: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR) 
 
 clean:
-	rm $(BINDIR)/MonteCarloMini/*.class
+	rm -r $(BINDIR)/*
 #	rm -r $(DOCDIR)/*
 
 run: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
+	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
 
 run_only:
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
