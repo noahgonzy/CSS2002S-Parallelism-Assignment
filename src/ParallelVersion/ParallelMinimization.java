@@ -16,6 +16,7 @@ public class ParallelMinimization {
 	}
     public static void main(String[] args) {
         ForkJoinPool commonPool = ForkJoinPool.commonPool();
+		commonPool.invoke(null);
 
         int rows, columns; //grid size
     	double xmin, xmax, ymin, ymax; //x and y terrain limits
