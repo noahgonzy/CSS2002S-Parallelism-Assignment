@@ -60,12 +60,12 @@ public class ParallelMinimization extends RecursiveAction {
     public static void main(String[] args) {
 		ForkJoinPool threadpool = new ForkJoinPool();
 
-    	/*
+    	
     	if (args.length!=7) {  
     		System.out.println("Incorrect number of command line arguments provided.");   	
     		System.exit(0);
     	}
-    	 Read argument values
+    	//Read argument values
     	rows =Integer.parseInt( args[0] );
     	columns = Integer.parseInt( args[1] );
     	xmin = Double.parseDouble(args[2] );
@@ -73,10 +73,9 @@ public class ParallelMinimization extends RecursiveAction {
     	ymin = Double.parseDouble(args[4] );
     	ymax = Double.parseDouble(args[5] );
     	searches_density = Double.parseDouble(args[6] );
-		*/
 
 		//TESTING ONLY
-		      
+		/*
 		rows = Integer.parseInt("1000");
     	columns = Integer.parseInt("1000");
     	xmin = Double.parseDouble("500");
@@ -84,7 +83,7 @@ public class ParallelMinimization extends RecursiveAction {
     	ymin = Double.parseDouble("500");
     	ymax = Double.parseDouble("500");
     	searches_density = Double.parseDouble("0.8");
-    	
+    	*/
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
     	num_searches = (int)( rows * columns * searches_density );
