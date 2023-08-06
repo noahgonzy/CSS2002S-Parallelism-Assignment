@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 
 public class ParallelMinimization {
+	static final boolean DEBUG=true;
 
     static long startTime = 0;
 	static long endTime = 0;
@@ -45,7 +46,11 @@ public class ParallelMinimization {
     		searches[i]=new Search(i+1, rand.nextInt(rows),rand.nextInt(columns),terrain);
 		}
 
-
+		if(DEBUG) {
+    		/* Print initial values */
+    		System.out.printf("Number searches: %d\n", num_searches);
+    		//terrain.print_heights();
+    	}
 
     	//start timer
     	tick();
@@ -65,10 +70,6 @@ public class ParallelMinimization {
         }
    		//end timer
    		tock();
-    	
-
-
-
 
 
 		System.out.printf("Run parameters\n");

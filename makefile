@@ -30,7 +30,7 @@ clean:
 
 run: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR)
-#	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
+	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
 
 run_only:
