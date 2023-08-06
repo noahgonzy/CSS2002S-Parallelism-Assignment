@@ -2,8 +2,66 @@ package ParallelVersion;
 
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveAction;
 
-public class ParallelMinimization {
+public class ParallelMinimization extends RecursiveAction {
+	static int rows; //grid size
+	static int columns;
+	static double xmin, xmax, ymin, ymax; //x and y terrain limits
+	static TerrainArea terrain;  //object to store the heights and grid points visited by searches
+	static double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
+
+	static int num_searches;		// Number of searches
+	static Search [] searches;		// Array of searches
+	static Random rand = new Random();  //the random number generator
+
+	static int min=Integer.MAX_VALUE;
+    static int local_min=Integer.MAX_VALUE;
+	static int finder =-1;
+
+/*
+	int rows, columns; //grid size
+    double xmin, xmax, ymin, ymax; //x and y terrain limits
+    TerrainArea terrain;  //object to store the heights and grid points visited by searches
+    double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
+
+    int num_searches;		// Number of searches
+    Search [] searches;		// Array of searches
+    Random rand = new Random();  //the random number generator
+	 
+	ParallelMinimization(int rowsin, int columnsin, double xminin, double xmaxin, double yminin, double ymaxin, 
+	TerrainArea terrainin, double searches_densityin, int num_searchesin, Search[] searchesin){
+		rows = rowsin;
+		columns = columnsin;
+		xmax = xmaxin;
+		xmin = xminin;
+		ymax = ymaxin;
+		ymin = yminin;
+		terrain = terrainin;
+		searches_density = searches_densityin;
+		num_searches = num_searchesin;
+		searches = searchesin;
+	}
+	*/
+
+	@Override
+	protected void compute(){
+		if(num_searches <= 200){
+			for(int i = 0; i < num_searches; i++){
+				local_min=searches[i].find_valleys();
+				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
+					min=local_min;
+					finder=i; //keep track of who found it
+				}
+			}
+		}
+		else{
+			int split = (int)(num_searches/2);
+			ParallelMinimization left = new ParallelMinimization();
+			ParallelMinimization right = new ParallelMinimization();
+		}
+	}
+
 	static final boolean DEBUG=true;
 
     static long startTime = 0;
@@ -16,14 +74,8 @@ public class ParallelMinimization {
 		endTime=System.currentTimeMillis(); 
 	}
     public static void main(String[] args) {
-        int rows, columns; //grid size
-    	double xmin, xmax, ymin, ymax; //x and y terrain limits
-    	TerrainArea terrain;  //object to store the heights and grid points visited by searches
-    	double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
+		ForkJoinPool threadpool = new ForkJoinPool();
 
-     	int num_searches;		// Number of searches
-    	Search [] searches;		// Array of searches
-    	Random rand = new Random();  //the random number generator
     	
     	if (args.length!=7) {  
     		System.out.println("Incorrect number of command line arguments provided.");   	
@@ -54,20 +106,9 @@ public class ParallelMinimization {
 
     	//start timer
     	tick();
-    	
-		//Must Change
 
-    	//all searches
-    	int min=Integer.MAX_VALUE;
-    	int local_min=Integer.MAX_VALUE;
-    	int finder =-1;
-    	for  (int i=0;i<num_searches;i++) {
-    		local_min=searches[i].find_valleys();
-    		if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
-    			min=local_min;
-    			finder=i; //keep track of who found it
-    		}
-        }
+		ParallelMinimization newprocess = new ParallelMinimization();
+		threadpool.invoke(newprocess);
    		//end timer
    		tock();
 
@@ -88,3 +129,4 @@ public class ParallelMinimization {
 		System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n\n", min, terrain.getXcoord(searches[finder].getPos_row()), terrain.getYcoord(searches[finder].getPos_col()) );
     }
 }
+

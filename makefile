@@ -38,3 +38,6 @@ run_only:
 
 run_tests:
 	@echo "nothing yet"
+
+run_p: $(CLASS_FILES)
+	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
