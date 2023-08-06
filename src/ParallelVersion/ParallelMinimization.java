@@ -18,36 +18,17 @@ public class ParallelMinimization extends RecursiveAction {
 	static int min=Integer.MAX_VALUE;
     static int local_min=Integer.MAX_VALUE;
 	static int finder =-1;
+	int minsearch,maxsearch;
 
-/*
-	int rows, columns; //grid size
-    double xmin, xmax, ymin, ymax; //x and y terrain limits
-    TerrainArea terrain;  //object to store the heights and grid points visited by searches
-    double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
-
-    int num_searches;		// Number of searches
-    Search [] searches;		// Array of searches
-    Random rand = new Random();  //the random number generator
-	 
-	ParallelMinimization(int rowsin, int columnsin, double xminin, double xmaxin, double yminin, double ymaxin, 
-	TerrainArea terrainin, double searches_densityin, int num_searchesin, Search[] searchesin){
-		rows = rowsin;
-		columns = columnsin;
-		xmax = xmaxin;
-		xmin = xminin;
-		ymax = ymaxin;
-		ymin = yminin;
-		terrain = terrainin;
-		searches_density = searches_densityin;
-		num_searches = num_searchesin;
-		searches = searchesin;
+	ParallelMinimization(int minsearchin, int maxsearchin){
+		minsearch = minsearchin;
+		maxsearch = maxsearchin;
 	}
-	*/
 
 	@Override
 	protected void compute(){
-		if(num_searches <= 200){
-			for(int i = 0; i < num_searches; i++){
+		if(maxsearch-minsearch <= 1000){
+			for(int i = 0; i < maxsearch-minsearch; i++){
 				local_min=searches[i].find_valleys();
 				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
 					min=local_min;
@@ -56,9 +37,12 @@ public class ParallelMinimization extends RecursiveAction {
 			}
 		}
 		else{
-			int split = (int)(num_searches/2);
-			ParallelMinimization left = new ParallelMinimization();
-			ParallelMinimization right = new ParallelMinimization();
+			int split = (int)((maxsearch+minsearch)/2);
+			ParallelMinimization left = new ParallelMinimization(minsearch,split);
+			ParallelMinimization right = new ParallelMinimization(split+1, maxsearch);
+			left.fork();
+			right.compute();
+			left.join();
 		}
 	}
 
@@ -76,12 +60,12 @@ public class ParallelMinimization extends RecursiveAction {
     public static void main(String[] args) {
 		ForkJoinPool threadpool = new ForkJoinPool();
 
-    	
+    	/*
     	if (args.length!=7) {  
     		System.out.println("Incorrect number of command line arguments provided.");   	
     		System.exit(0);
     	}
-    	/* Read argument values */
+    	 Read argument values
     	rows =Integer.parseInt( args[0] );
     	columns = Integer.parseInt( args[1] );
     	xmin = Double.parseDouble(args[2] );
@@ -89,6 +73,17 @@ public class ParallelMinimization extends RecursiveAction {
     	ymin = Double.parseDouble(args[4] );
     	ymax = Double.parseDouble(args[5] );
     	searches_density = Double.parseDouble(args[6] );
+		*/
+
+		//TESTING ONLY
+		      
+		rows = Integer.parseInt("1000");
+    	columns = Integer.parseInt("1000");
+    	xmin = Double.parseDouble("500");
+    	xmax = Double.parseDouble("500");
+    	ymin = Double.parseDouble("500");
+    	ymax = Double.parseDouble("500");
+    	searches_density = Double.parseDouble("0.8");
     	
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
@@ -107,8 +102,9 @@ public class ParallelMinimization extends RecursiveAction {
     	//start timer
     	tick();
 
-		ParallelMinimization newprocess = new ParallelMinimization();
+		ParallelMinimization newprocess = new ParallelMinimization(0, num_searches);
 		threadpool.invoke(newprocess);
+
    		//end timer
    		tock();
 
