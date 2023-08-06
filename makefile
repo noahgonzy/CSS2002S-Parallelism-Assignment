@@ -12,7 +12,7 @@ JFLAGS= -g
 SRCDIR=src/*/
 BINDIR=bin
 DOCDIR=doc
-ARGS=1000 1000 500 500 500 500 0.8
+ARGS=1000 1000 1000 1000 1000 1000 0.5
 
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) $ -d $(BINDIR)/ -cp $(SRCDIR)*.java $(JFLAGS) $<

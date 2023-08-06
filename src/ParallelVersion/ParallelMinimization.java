@@ -27,7 +27,7 @@ public class ParallelMinimization extends RecursiveAction {
 
 	@Override
 	protected void compute(){
-		if(maxsearch-minsearch <= 1000){
+		if(maxsearch-minsearch <= 8000){
 			for(int i = 0; i < maxsearch-minsearch; i++){
 				local_min=searches[i].find_valleys();
 				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
