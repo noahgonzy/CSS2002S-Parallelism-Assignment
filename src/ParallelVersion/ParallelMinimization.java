@@ -16,7 +16,6 @@ public class ParallelMinimization {
 	}
     public static void main(String[] args) {
         ForkJoinPool commonPool = ForkJoinPool.commonPool();
-		commonPool.invoke(null);
 
         int rows, columns; //grid size
     	double xmin, xmax, ymin, ymax; //x and y terrain limits
@@ -44,11 +43,17 @@ public class ParallelMinimization {
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
     	num_searches = (int)( rows * columns * searches_density );
     	searches= new Search [num_searches];
-    	for (int i=0;i<num_searches;i++)
+    	for (int i=0;i<num_searches;i++){
     		searches[i]=new Search(i+1, rand.nextInt(rows),rand.nextInt(columns),terrain);
+		}
+
+
+
     	//start timer
     	tick();
     	
+		//Must Change
+
     	//all searches
     	int min=Integer.MAX_VALUE;
     	int local_min=Integer.MAX_VALUE;
@@ -63,6 +68,11 @@ public class ParallelMinimization {
    		//end timer
    		tock();
     	
+
+
+
+
+
 		System.out.printf("Run parameters\n");
 		System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
 		System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax );
