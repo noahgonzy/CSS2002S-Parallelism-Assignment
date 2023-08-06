@@ -15,8 +15,6 @@ public class ParallelMinimization {
 		endTime=System.currentTimeMillis(); 
 	}
     public static void main(String[] args) {
-        ForkJoinPool commonPool = ForkJoinPool.commonPool();
-
         int rows, columns; //grid size
     	double xmin, xmax, ymin, ymax; //x and y terrain limits
     	TerrainArea terrain;  //object to store the heights and grid points visited by searches
