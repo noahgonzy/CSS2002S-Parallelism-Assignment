@@ -10,7 +10,7 @@ package MonteCarloMini;
 import java.util.Random;
 
 class MonteCarloMinimization{
-	static final boolean DEBUG=false;
+	static final boolean DEBUG=true;
 	
 	static long startTime = 0;
 	static long endTime = 0;
