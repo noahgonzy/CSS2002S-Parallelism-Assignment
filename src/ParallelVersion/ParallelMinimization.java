@@ -37,6 +37,7 @@ public class ParallelMinimization extends RecursiveAction {
 			}
 		}
 		else{
+			//SORT OUT POINTS VISITED ISSUE
 			int split = (int)((maxsearch+minsearch)/2);
 			ParallelMinimization left = new ParallelMinimization(minsearch,split);
 			ParallelMinimization right = new ParallelMinimization(split+1, maxsearch);
