@@ -12,7 +12,9 @@ JFLAGS= -g
 SRCDIR=src/*/
 BINDIR=bin
 DOCDIR=doc
-ARGS=1000 1000 1000 1000 1000 1000 0.5
+ARGS=10 10 -10 10 -10 10 0.8
+ARGS2=1000 1000 -1000 1000 -1000 1000 0.4
+ARGS3=1000 1000 -1000 1000 -1000 1000 0.8
 
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) $ -d $(BINDIR)/ -cp $(SRCDIR)*.java $(JFLAGS) $<
@@ -36,8 +38,16 @@ run: $(CLASS_FILES)
 run_only:
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
-run_tests:
-	@echo "nothing yet"
+run_tests: $(CLASS_FILES)
+	@echo "Test 1"
+	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
+	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
+	@echo "Test 2"
+	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS2)
+	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS2)
+	@echo "Test 3"
+	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS3)
+	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS3)
 
 run_p: $(CLASS_FILES)
 	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)

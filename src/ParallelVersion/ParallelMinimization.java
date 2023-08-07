@@ -1,26 +1,16 @@
 package ParallelVersion;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
 public class ParallelMinimization extends RecursiveTask<Integer> {
-	static int rows; //grid size
-	static int columns;
-	static double xmin, xmax, ymin, ymax; //x and y terrain limits
-	static TerrainArea terrain;  //object to store the heights and grid points visited by searches
-	static double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
-
-	static int num_searches;		// Number of searches
-	static Search [] searches;		// Array of searches
-	static Random rand = new Random();  //the random number generator
-
 	int min=Integer.MAX_VALUE;
     int local_min=Integer.MAX_VALUE;
 	int finder =-1;
 	int minsearch, maxsearch, leftret, rightret;
 	static int[] nums;
+	static Search[] searches;		// Array of searches
 
 	ParallelMinimization(int minsearchin, int maxsearchin){
 		minsearch = minsearchin;
@@ -52,7 +42,7 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 		}
 	}
 
-	static final boolean DEBUG=true;
+	static final boolean DEBUG=false;
 
     static long startTime = 0;
 	static long endTime = 0;
@@ -64,7 +54,16 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 		endTime=System.currentTimeMillis(); 
 	}
     public static void main(String[] args) {
-    	/*
+		int rows; //grid size
+		int columns;
+		double xmin, xmax, ymin, ymax; //x and y terrain limits
+		TerrainArea terrain;  //object to store the heights and grid points visited by searches
+		double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
+
+		int num_searches;		// Number of searches
+		
+		Random rand = new Random();  //the random number generator
+
     	if (args.length!=7) {  
     		System.out.println("Incorrect number of command line arguments provided.");   	
     		System.exit(0);
@@ -78,9 +77,9 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     	ymin = Double.parseDouble(args[4] );
     	ymax = Double.parseDouble(args[5] );
     	searches_density = Double.parseDouble(args[6] );
-		*/
-		//TESTING ONLY
 		
+		//TESTING ONLY
+		/*
 		rows = Integer.parseInt("1000");
     	columns = Integer.parseInt("1000");
     	xmin = Double.parseDouble("1000");
@@ -88,7 +87,8 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     	ymin = Double.parseDouble("1000");
     	ymax = Double.parseDouble("-1000");
     	searches_density = Double.parseDouble("0.8");
-    	
+    	*/
+
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
     	num_searches = (int)( rows * columns * searches_density );
@@ -115,16 +115,16 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 
    		//end timer
    		tock();
+		threadpool.close();
 
 		int finder = 0;
-
 		for(int i = 0; i < nums.length; i++){
 			if(nums[i] == newmin){
 				finder = i;
 				break;
 			}
 		}
-		//threadpool.close();
+		
 
 		System.out.printf("Run parameters\n");
 		System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
