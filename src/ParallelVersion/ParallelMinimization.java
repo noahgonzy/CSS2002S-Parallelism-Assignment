@@ -10,6 +10,7 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 	int finder =-1;
 	int minsearch, maxsearch, leftret, rightret;
 	static int[] nums;
+
 	static Search[] searches;		// Array of searches
 
 	ParallelMinimization(int minsearchin, int maxsearchin){
@@ -40,14 +41,11 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 			return Math.min(leftret, rightret);
 		}
 	}
-
-	static final boolean DEBUG=false;
-
     static long startTime = 0;
 	static long endTime = 0;
 
     private static void tick(){
-		startTime = System.currentTimeMillis();
+		startTime=System.currentTimeMillis();
 	}
 	private static void tock(){
 		endTime=System.currentTimeMillis(); 
@@ -68,7 +66,6 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     		System.exit(0);
     	}
     	//Read argument values
-		
     	rows =Integer.parseInt( args[0] );
     	columns = Integer.parseInt( args[1] );
     	xmin = Double.parseDouble(args[2] );
@@ -76,19 +73,6 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     	ymin = Double.parseDouble(args[4] );
     	ymax = Double.parseDouble(args[5] );
     	searches_density = Double.parseDouble(args[6] );
-		
-		
-		//TESTING ONLY
-		/*
-		/*
-		rows = Integer.parseInt("1000");
-    	columns = Integer.parseInt("1000");
-    	xmin = Double.parseDouble("1000");
-    	xmax = Double.parseDouble("-1000");
-    	ymin = Double.parseDouble("1000");
-    	ymax = Double.parseDouble("-1000");
-    	searches_density = Double.parseDouble("0.8");
-    	*/
 
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
@@ -99,13 +83,6 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 		}
 
 		nums = new int[searches.length];
-
-		if(DEBUG) {
-    		/* Print initial values */
-    		System.out.printf("Number searches: %d\n", num_searches);
-    		//terrain.print_heights();
-    	}
-
 		int newmin;
 		ForkJoinPool threadpool = new ForkJoinPool();
     	//start timer
