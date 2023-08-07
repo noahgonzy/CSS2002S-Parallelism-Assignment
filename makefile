@@ -26,17 +26,16 @@ CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
 default: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR) 
 
-clean:
-	rm -r $(BINDIR)/*
-#	rm -r $(DOCDIR)/*
-
 run: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
 
-run_only:
+run_m $(CLASS_FILES):
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
+
+run_p: $(CLASS_FILES)
+	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
 
 run_tests: $(CLASS_FILES)
 	@echo "Test 1"
@@ -49,5 +48,3 @@ run_tests: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS3)
 	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS3)
 
-run_p: $(CLASS_FILES)
-	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)

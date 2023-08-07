@@ -83,6 +83,7 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 		}
 
 		nums = new int[searches.length];
+
 		int newmin;
 		ForkJoinPool threadpool = new ForkJoinPool();
     	//start timer
@@ -103,7 +104,6 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 			}
 		}
 		
-
 		System.out.printf("Run parameters\n");
 		System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
 		System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax );
