@@ -20,10 +20,10 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 
 	@Override
 	protected Integer compute(){
-		if(maxsearch-minsearch <= 100){
+		if(maxsearch-minsearch <= 8000){
 			for(int i = minsearch; i < maxsearch; i++){
 				local_min=searches[i].find_valleys();
-				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
+				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at those who stopped because hit exisiting path
 					min=local_min;
 					finder=i; //keep track of who found it
 					nums[i] = min;
@@ -60,7 +60,7 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 		int num_searches;		// Number of searches
 		
 		Random rand = new Random();  //the random number generator
-
+		
     	if (args.length!=7) {  
     		System.out.println("Incorrect number of command line arguments provided.");   	
     		System.exit(0);
@@ -73,7 +73,16 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     	ymin = Double.parseDouble(args[4] );
     	ymax = Double.parseDouble(args[5] );
     	searches_density = Double.parseDouble(args[6] );
-
+		/* 
+		//TESTING ONLY
+		rows =Integer.parseInt( "1000" );
+    	columns = Integer.parseInt( "1000" );
+    	xmin = Double.parseDouble("-1000" );
+    	xmax = Double.parseDouble("1000" );
+    	ymin = Double.parseDouble("-1000");
+    	ymax = Double.parseDouble("1000" );
+    	searches_density = Double.parseDouble("0.8" );
+		*/
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
     	num_searches = (int)( rows * columns * searches_density );
@@ -95,7 +104,9 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
    		//end timer
    		tock();
 		threadpool.close();
+		
 
+		
 		int finder = 0;
 		for(int i = 0; i < nums.length; i++){
 			if(nums[i] == newmin){
@@ -103,7 +114,9 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 				break;
 			}
 		}
-		
+		System.out.println(terrain.get_height(-366,6));
+		System.out.println("-----------");
+	
 		System.out.printf("Run parameters\n");
 		System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
 		System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax );

@@ -14,7 +14,7 @@ BINDIR=bin
 DOCDIR=doc
 ARGS=1000 1000 -1000 1000 -1000 1000 0.8
 ARGS2=1000 1000 -1000 1000 -1000 1000 0.4
-ARGS3=10 10 -10 10 -10 10 0.8
+ARGS3=10 10 0 10 0 10 0.8
 
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) $ -d $(BINDIR)/ -cp $(SRCDIR)*.java $(JFLAGS) $<
@@ -31,7 +31,7 @@ run: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
 
-run_m $(CLASS_FILES):
+run_m: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
 run_p: $(CLASS_FILES)
