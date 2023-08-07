@@ -19,7 +19,7 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 
 	@Override
 	protected Integer compute(){
-		if(maxsearch-minsearch <= 8000){
+		if(maxsearch-minsearch <= 100){
 			for(int i = minsearch; i < maxsearch; i++){
 				local_min=searches[i].find_valleys();
 				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
@@ -78,7 +78,9 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     	ymax = Double.parseDouble(args[5] );
     	searches_density = Double.parseDouble(args[6] );
 		
+		
 		//TESTING ONLY
+		/*
 		/*
 		rows = Integer.parseInt("1000");
     	columns = Integer.parseInt("1000");
