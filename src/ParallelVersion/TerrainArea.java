@@ -1,6 +1,6 @@
 package ParallelVersion;
 
-import ParallelVersion.Search.Direction;
+import ParallelVersion.SearchParallel.Direction;
 
 public class TerrainArea {
 	

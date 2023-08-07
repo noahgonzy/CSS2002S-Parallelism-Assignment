@@ -4,16 +4,16 @@ import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
-public class ParallelMinimization extends RecursiveTask<Integer> {
+public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 	int min=Integer.MAX_VALUE;
     int local_min=Integer.MAX_VALUE;
 	int finder =-1;
 	int minsearch, maxsearch, leftret, rightret;
 	static int[] nums;
 
-	static Search[] searches;		// Array of searches
+	static SearchParallel[] searches;		// Array of searches
 
-	ParallelMinimization(int minsearchin, int maxsearchin){
+	MonteCarloMinimizationParallel(int minsearchin, int maxsearchin){
 		minsearch = minsearchin;
 		maxsearch = maxsearchin;
 	}
@@ -33,8 +33,8 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 		}
 		else{
 			int split = (int)((maxsearch+minsearch)/2);
-			ParallelMinimization left = new ParallelMinimization(minsearch,split);
-			ParallelMinimization right = new ParallelMinimization(split, maxsearch);
+			MonteCarloMinimizationParallel left = new MonteCarloMinimizationParallel(minsearch,split);
+			MonteCarloMinimizationParallel right = new MonteCarloMinimizationParallel(split, maxsearch);
 			left.fork();
 			rightret = right.compute();
 			leftret = left.join();
@@ -86,9 +86,9 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
     	num_searches = (int)( rows * columns * searches_density );
-    	searches= new Search [num_searches];
+    	searches= new SearchParallel [num_searches];
     	for (int i=0;i<num_searches;i++){
-    		searches[i]=new Search(i+1, rand.nextInt(rows),rand.nextInt(columns),terrain);
+    		searches[i]=new SearchParallel(i+1, rand.nextInt(rows),rand.nextInt(columns),terrain);
 		}
 
 		nums = new int[searches.length];
@@ -98,7 +98,7 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     	//start timer
     	tick();
 
-		ParallelMinimization newprocess = new ParallelMinimization(0, num_searches);
+		MonteCarloMinimizationParallel newprocess = new MonteCarloMinimizationParallel(0, num_searches);
 		newmin = threadpool.invoke(newprocess);
 
    		//end timer
@@ -114,7 +114,7 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 				break;
 			}
 		}
-		System.out.println(terrain.get_height(-366,6));
+		System.out.println(terrain.get_height(344,6));
 		System.out.println("-----------");
 	
 		System.out.printf("Run parameters\n");
