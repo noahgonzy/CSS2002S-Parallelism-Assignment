@@ -35,9 +35,9 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
 					min=local_min;
 					finder=i; //keep track of who found it
+					nums[i] = min;
 				}
 			}
-			System.out.println(finder);
 			return min;
 		}
 		else{
@@ -97,7 +97,6 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
     		searches[i]=new Search(i+1, rand.nextInt(rows),rand.nextInt(columns),terrain);
 		}
 
-		//COME HERE
 		nums = new int[searches.length];
 
 		if(DEBUG) {
@@ -116,7 +115,16 @@ public class ParallelMinimization extends RecursiveTask<Integer> {
 
    		//end timer
    		tock();
-		threadpool.close();
+
+		int finder = 0;
+
+		for(int i = 0; i < nums.length; i++){
+			if(nums[i] == newmin){
+				finder = i;
+				break;
+			}
+		}
+		//threadpool.close();
 
 		System.out.printf("Run parameters\n");
 		System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
