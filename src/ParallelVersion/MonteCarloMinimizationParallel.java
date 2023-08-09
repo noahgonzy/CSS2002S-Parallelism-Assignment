@@ -18,6 +18,7 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 		maxsearch = maxsearchin;
 	}
 
+	//OPTIMIZE FOR DIFFERENT ARRAY SIZES
 	@Override
 	protected Integer compute(){
 		if(maxsearch-minsearch <= 8000){
