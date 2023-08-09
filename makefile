@@ -29,22 +29,29 @@ default: $(CLASS_FILES)
 run: $(CLASS_FILES)
 #	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
-	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
+	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
 
 run_m: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
 run_p: $(CLASS_FILES)
-	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
+	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
 
 run_tests: $(CLASS_FILES)
 	@echo "Test 1"
+	@echo "---------------------------"
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
-	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS)
+	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
+	@echo "---------------------------"
 	@echo "Test 2"
+	@echo "---------------------------"
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS2)
-	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS2)
+	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS2)
+	@echo "---------------------------"
 	@echo "Test 3"
+	@echo "---------------------------"
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS3)
-	$(JAVA) -cp bin ParallelVersion.ParallelMinimization $(ARGS3)
+	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS3)
 
+clean:
+	rm -r bin/*

@@ -114,8 +114,6 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 				break;
 			}
 		}
-		System.out.println(terrain.get_height(344,6));
-		System.out.println("-----------");
 	
 		System.out.printf("Run parameters\n");
 		System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
