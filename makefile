@@ -27,23 +27,21 @@ CLASSES=*.class \
 CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
 
 default: $(CLASS_FILES)
-#	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR) 
 
 run: $(CLASS_FILES)
-#	$(JAVADOC) $(SRCDIR)/*.java -d $(DOCDIR)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
 
 run_m: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
-run_jt: $(CLASS_FILES)
+run_p: $(CLASS_FILES)
+	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
+
+run_tests: $(CLASS_FILES)
 #	rm -r Results/*
 	$(JAVA) -cp bin ParallelVersion.Testing
 	$(JAVA) -cp bin MonteCarloMini.Testing
-
-run_p: $(CLASS_FILES)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
 
 clean:
 	rm -r bin/*
