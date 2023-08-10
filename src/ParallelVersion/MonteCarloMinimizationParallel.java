@@ -98,7 +98,6 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 
    		//end timer
    		tock();
-		threadpool.close();
 		
 		
 		int finder = 0;

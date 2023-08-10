@@ -38,7 +38,7 @@ run_m: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
 run_jt: $(CLASS_FILES)
-	rm -r Results/*
+#	rm -r Results/*
 	$(JAVA) -cp bin ParallelVersion.Testing
 	$(JAVA) -cp bin MonteCarloMini.Testing
 
