@@ -37,13 +37,12 @@ run: $(CLASS_FILES)
 run_m: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
-run_ct: $(CLASS_FILES)
-	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS6)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS6)
+run_jt: $(CLASS_FILES)
+	$(JAVA) -cp bin ParallelVersion.Testing
 
 run_p: $(CLASS_FILES)
 	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
-
+  
 run_tests: $(CLASS_FILES)
 	@echo "Test 1"
 	@echo "---------------------------"
@@ -77,3 +76,4 @@ run_tests: $(CLASS_FILES)
 
 clean:
 	rm -r bin/*
+	rm -r Results/*

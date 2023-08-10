@@ -3,6 +3,9 @@ package ParallelVersion;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 	int min=Integer.MAX_VALUE;
@@ -74,16 +77,7 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
     	ymin = Double.parseDouble(args[4] );
     	ymax = Double.parseDouble(args[5] );
     	searches_density = Double.parseDouble(args[6] );
-		/* 
-		//TESTING ONLY
-		rows =Integer.parseInt( "1000" );
-    	columns = Integer.parseInt( "1000" );
-    	xmin = Double.parseDouble("-1000" );
-    	xmax = Double.parseDouble("1000" );
-    	ymin = Double.parseDouble("-1000");
-    	ymax = Double.parseDouble("1000" );
-    	searches_density = Double.parseDouble("0.8" );
-		*/
+		
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
     	num_searches = (int)( rows * columns * searches_density );
@@ -106,7 +100,6 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
    		tock();
 		threadpool.close();
 		
-
 		
 		int finder = 0;
 		for(int i = 0; i < nums.length; i++){
@@ -114,6 +107,30 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 				finder = i;
 				break;
 			}
+		}
+
+		boolean firstWrite = false;
+
+		try {
+			File Resultsdir = new File("Results/");
+			if (!Resultsdir.exists()){
+				Resultsdir.mkdir();
+			}
+			File myfile = new File(Resultsdir, "PResults.txt");
+			if (!myfile.exists()){
+				myfile.createNewFile();
+				firstWrite = true;
+			}
+			FileWriter fw = new FileWriter(myfile, true);
+			if(firstWrite){
+				fw.write("Rows Columns Xmin Xmax Ymin Ymax Search_Density Global_Minimum Xpos Ypos Search_Time\n");
+			}
+			fw.write(rows + " " + columns + " " + xmin + " " + xmax + " " + ymin + " " + ymax + " " + searches_density + " " + newmin + " " 
+			+ terrain.getXcoord(searches[finder].getPos_row()) + " " + terrain.getYcoord(searches[finder].getPos_col()) + " " + (endTime - startTime) + "\n");
+			fw.close();
+		} catch (IOException e){
+			System.out.println("An error has occurred");
+			e.printStackTrace();
 		}
 	
 		System.out.printf("Run parameters\n");
