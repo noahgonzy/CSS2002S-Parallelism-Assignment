@@ -13,6 +13,7 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 	int finder =-1;
 	int minsearch, maxsearch, leftret, rightret;
 	static int[] nums;
+	static int cutoff = 10000;
 
 	static SearchParallel[] searches;		// Array of searches
 
@@ -24,7 +25,7 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 	//OPTIMIZE FOR DIFFERENT ARRAY SIZES
 	@Override
 	protected Integer compute(){
-		if(maxsearch-minsearch <= 8000){
+		if(maxsearch-minsearch <= cutoff){
 			for(int i = minsearch; i < maxsearch; i++){
 				local_min=searches[i].find_valleys();
 				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at those who stopped because hit exisiting path
@@ -55,28 +56,39 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 		endTime=System.currentTimeMillis(); 
 	}
     public static void main(String[] args) {
-		int rows; //grid size
-		int columns;
-		double xmin, xmax, ymin, ymax; //x and y terrain limits
+		int rows = 0; //grid size
+		int columns = 0;
+		double xmin = 0, xmax = 0, ymin = 0, ymax = 0; //x and y terrain limits
 		TerrainArea terrain;  //object to store the heights and grid points visited by searches
-		double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
+		double searches_density = 0;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
 
 		int num_searches;		// Number of searches
 		
 		Random rand = new Random();  //the random number generator
 		
-    	if (args.length!=7) {  
-    		System.out.println("Incorrect number of command line arguments provided.");   	
-    		System.exit(0);
+    	if (args.length==7) {  
+    		rows =Integer.parseInt( args[0] );
+			columns = Integer.parseInt( args[1] );
+			xmin = Double.parseDouble(args[2] );
+			xmax = Double.parseDouble(args[3] );
+			ymin = Double.parseDouble(args[4] );
+			ymax = Double.parseDouble(args[5] );
+			searches_density = Double.parseDouble(args[6] );
     	}
-    	//Read argument values
-    	rows =Integer.parseInt( args[0] );
-    	columns = Integer.parseInt( args[1] );
-    	xmin = Double.parseDouble(args[2] );
-    	xmax = Double.parseDouble(args[3] );
-    	ymin = Double.parseDouble(args[4] );
-    	ymax = Double.parseDouble(args[5] );
-    	searches_density = Double.parseDouble(args[6] );
+		else if (args.length==8){
+			rows =Integer.parseInt( args[0] );
+			columns = Integer.parseInt( args[1] );
+			xmin = Double.parseDouble(args[2] );
+			xmax = Double.parseDouble(args[3] );
+			ymin = Double.parseDouble(args[4] );
+			ymax = Double.parseDouble(args[5] );
+			searches_density = Double.parseDouble(args[6] );
+			cutoff = Integer.parseInt(args[7]);
+		}
+		else{
+			System.out.println("Incorrect number of command line arguments provided.");   	
+    		System.exit(0);
+		}	
 		
     	// Initialize 
     	terrain = new TerrainArea(rows, columns, xmin,xmax,ymin,ymax);
@@ -145,7 +157,8 @@ public class MonteCarloMinimizationParallel extends RecursiveTask<Integer> {
 		System.out.printf("Grid points evaluated: %d  (%2.0f%s)\n",tmp,(tmp/(rows*columns*1.0))*100.0, "%");
 	
 		/* Results*/
-		System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n\n", newmin, terrain.getXcoord(searches[finder].getPos_row()), terrain.getYcoord(searches[finder].getPos_col()) );
+		System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n", newmin, terrain.getXcoord(searches[finder].getPos_row()), terrain.getYcoord(searches[finder].getPos_col()) );
+		System.out.println("Sequential Cutoff of: " + cutoff + "\n");
     }
 }
 

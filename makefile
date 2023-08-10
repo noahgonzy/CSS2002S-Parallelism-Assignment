@@ -13,11 +13,6 @@ SRCDIR=src/*/
 BINDIR=bin
 DOCDIR=doc
 ARGS=1000 1000 -1000 1000 -1000 1000 0.8
-ARGS2=1000 1000 -1000 1000 -1000 1000 0.2
-ARGS3=10 10 0 10 0 10 0.8
-ARGS4=10 10 0 10 0 10 0.2
-ARGS5=2 2 0 1 0 1 0.9
-ARGS6=5000 5000 -100 100 -100 100 0.9
 
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) $ -d $(BINDIR)/ -cp $(SRCDIR)*.java $(JFLAGS) $<
@@ -38,9 +33,14 @@ run_m: $(CLASS_FILES)
 run_p: $(CLASS_FILES)
 	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
 
-run_tests: $(CLASS_FILES)
-#	rm -r Results/*
+run_test: $(CLASS_FILES)
 	$(JAVA) -cp bin ParallelVersion.Testing
+	$(JAVA) -cp bin MonteCarloMini.Testing
+
+run_test_p: $(CLASS_FILES)
+	$(JAVA) -cp bin ParallelVersion.Testing
+
+run_test_s: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.Testing
 
 clean:

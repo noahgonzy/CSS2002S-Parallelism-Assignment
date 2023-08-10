@@ -8,8 +8,8 @@ public class Testing {
 	static double searches_density;	// Density - number of Monte Carlo  searches per grid position - usually less than 1!
 
     public static void main(String[] args) {
-        int[] rowsandcol = new int[]{10,100,500,1000,5000};
-        int[] grisizes = new int[]{10,100,500,1000,5000};
+        int[] rowsandcol = new int[]{10,100,1000,5000};
+        int[] grisizes = new int[]{10,100,1000,5000};
 
         rows = 1000;
         columns = 1000;
@@ -25,9 +25,9 @@ public class Testing {
             rows = rowsandcol[j];
             columns = rowsandcol[j];
             for(int k = 0; k < grisizes.length; k++){
-                xmin = grisizes[k];
+                xmin = -(grisizes[k]);
                 xmax = grisizes[k];
-                ymin = grisizes[k];
+                ymin = -(grisizes[k]);
                 ymax = grisizes[k];
                 for(double i = 0.1; i < 1; i += 0.1){
                     double density = (double)(Math.round(i * 100)) / 100;
