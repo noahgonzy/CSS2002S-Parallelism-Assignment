@@ -38,41 +38,12 @@ run_m: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
 run_jt: $(CLASS_FILES)
+	rm -r Results/*
 	$(JAVA) -cp bin ParallelVersion.Testing
+	$(JAVA) -cp bin MonteCarloMini.Testing
 
 run_p: $(CLASS_FILES)
 	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
-  
-run_tests: $(CLASS_FILES)
-	@echo "Test 1"
-	@echo "---------------------------"
-	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
-	@echo "---------------------------"
-	@echo "Test 2"
-	@echo "---------------------------"
-	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS2)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS2)
-	@echo "---------------------------"
-	@echo "Test 3"
-	@echo "---------------------------"
-	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS3)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS3)
-	@echo "---------------------------"
-	@echo "Test 4"
-	@echo "---------------------------"
-	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS4)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS4)
-	@echo "---------------------------"
-	@echo "Test 5"
-	@echo "---------------------------"
-	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS5)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS5)
-	@echo "---------------------------"
-	@echo "Test 6"
-	@echo "---------------------------"
-	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS6)
-	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS6)
 
 clean:
 	rm -r bin/*

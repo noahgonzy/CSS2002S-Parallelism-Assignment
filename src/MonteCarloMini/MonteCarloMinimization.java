@@ -1,4 +1,7 @@
 package MonteCarloMini;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 /* Serial  program to use Monte Carlo method to 
  * locate a minimum in a function
  * This is the reference sequential version (Do not modify this code)
@@ -84,6 +87,30 @@ class MonteCarloMinimization{
     	}
    		//end timer
    		tock();
+
+		boolean firstWrite = false;
+
+		try {
+			File Resultsdir = new File("Results/");
+			if (!Resultsdir.exists()){
+				Resultsdir.mkdir();
+			}
+			File myfile = new File(Resultsdir, "SResults.txt");
+			if (!myfile.exists()){
+				myfile.createNewFile();
+				firstWrite = true;
+			}
+			FileWriter fw = new FileWriter(myfile, true);
+			if(firstWrite){
+				fw.write("Rows Columns Xmin Xmax Ymin Ymax Search_Density Global_Minimum Xpos Ypos Search_Time\n");
+			}
+			fw.write(rows + " " + columns + " " + xmin + " " + xmax + " " + ymin + " " + ymax + " " + searches_density + " " + min + " " 
+			+ terrain.getXcoord(searches[finder].getPos_row()) + " " + terrain.getYcoord(searches[finder].getPos_col()) + " " + (endTime - startTime) + "\n");
+			fw.close();
+		} catch (IOException e){
+			System.out.println("An error has occurred");
+			e.printStackTrace();
+		}
    		
     	if(DEBUG) {
     		/* print final state */

@@ -1,4 +1,4 @@
-package ParallelVersion;
+package MonteCarloMini;
 
 public class Testing {
     static String[] torun = new String[7];
@@ -35,7 +35,7 @@ public class Testing {
                     ArrUpdate();
                     testnum += 1;
                     System.out.println("Test: " + testnum + " of " + rowsandcol.length*grisizes.length*10);
-                    MonteCarloMinimizationParallel.main(torun);
+                    MonteCarloMinimization.main(torun);
                 }
             }
         }
