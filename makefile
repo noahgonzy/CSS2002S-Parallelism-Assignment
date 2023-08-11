@@ -27,7 +27,7 @@ run: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 	$(JAVA) -cp bin ParallelVersion.MonteCarloMinimizationParallel $(ARGS)
 
-run_m: $(CLASS_FILES)
+run_s: $(CLASS_FILES)
 	$(JAVA) -cp bin MonteCarloMini.MonteCarloMinimization $(ARGS)
 
 run_p: $(CLASS_FILES)
